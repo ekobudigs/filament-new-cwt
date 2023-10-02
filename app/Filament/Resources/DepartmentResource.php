@@ -17,7 +17,15 @@ class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
+
+    protected static ?string $navigationLabel = 'Department';
+
+    protected static ?string $ModelLabel = 'Department';
+
+    protected static ?string $navigationGroup = 'System Managament';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -46,14 +54,14 @@ class DepartmentResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -62,5 +70,5 @@ class DepartmentResource extends Resource
             'view' => Pages\ViewDepartment::route('/{record}'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
-    }    
+    }
 }
