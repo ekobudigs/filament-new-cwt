@@ -17,7 +17,17 @@ class CountryResource extends Resource
 {
     protected static ?string $model = Country::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
+
+    protected static ?string $navigationLabel = 'Country';
+
+    protected static ?string $ModelLabel = 'Country';
+
+    protected static ?string $navigationGroup = 'System Managament';
+
+    protected static ?int $navigationSort = 1;
+
+    // protected static ?string $slug = 'employees-countries'; buat ganti slug url 
 
     public static function form(Form $form): Form
     {
@@ -45,14 +55,14 @@ class CountryResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -60,5 +70,5 @@ class CountryResource extends Resource
             'create' => Pages\CreateCountry::route('/create'),
             'edit' => Pages\EditCountry::route('/{record}/edit'),
         ];
-    }    
+    }
 }
