@@ -74,7 +74,7 @@ class EmployeeResource extends Resource
                     TextInput::make('zip_code')->required()->maxLength(255),
                 ])->columns(2),
                 Section::make('Dates')->schema([
-                    DatePicker::make('date_of_birth')->required(),
+                    DatePicker::make('date_of_birth')->required()->native(false)->displayFormat('d/m/Y'),
                     DatePicker::make('date_hired')->required(),
                 ])->columns(2),
 
