@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,8 +35,11 @@ class StateResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('country_id')->relationship('country', 'name')->searchable()->preload()->required(),
-                TextInput::make('name')->required()->maxLength(255)
+                Section::make('State Details')->schema([
+                    Select::make('country_id')->relationship('country', 'name')->searchable()->preload()->required(),
+                    TextInput::make('name')->required()->maxLength(255)
+                ])->columns(2),
+
             ]);
     }
 
@@ -43,8 +47,8 @@ class StateResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('country.name')->sortable()->searchable(isIndividual: true, isGlobal: false),
-                TextColumn::make('name')->label('State Name')->sortable()->searchable(isIndividual: true)->visible(!auth()->user()->email == 'eko@gmail.com'),
+                TextColumn::make('country.name')->sortable()->searchable(),
+                TextColumn::make('name')->label('State Name')->sortable()->searchable(),
                 TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])->defaultSort('country.name', 'desc')
@@ -52,6 +56,7 @@ class StateResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
