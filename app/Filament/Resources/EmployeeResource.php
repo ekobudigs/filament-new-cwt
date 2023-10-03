@@ -8,6 +8,7 @@ use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -29,6 +30,12 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
+                Section::make('Relationship')->schema([
+                    Select::make('country_id')->relationship('country', 'name')->searchable()->preload()->required(),
+                    Select::make('state_id')->relationship('state', 'name')->searchable()->preload()->required(),
+                    Select::make('city_id')->relationship('city', 'name')->searchable()->preload()->required(),
+                    Select::make('department_id')->relationship('department', 'name')->searchable()->preload()->required(),
+                ])->columns(2),
                 Section::make('User Name')->description('Put The user Name Detail')->schema([
                     TextInput::make('first_name')->required()->maxLength(255),
                     TextInput::make('last_name')->required()->maxLength(255),
