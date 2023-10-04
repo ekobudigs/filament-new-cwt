@@ -7,11 +7,14 @@ use Filament\Tables;
 use App\Models\Country;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\CountryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\Section as sections;
 use App\Filament\Resources\CountryResource\RelationManagers;
 
 class CountryResource extends Resource
@@ -59,12 +62,26 @@ class CountryResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                sections::make('Country Info')
+                    ->schema([
+                        TextEntry::make('name')->label(' Name'),
+                        TextEntry::make('Code')->label('Country Code'),
+                        TextEntry::make('phonecode')->label('Phone Code'),
+                    ])->columns(2)
             ]);
     }
 
