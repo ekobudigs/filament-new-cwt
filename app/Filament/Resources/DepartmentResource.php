@@ -7,12 +7,16 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\Department;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartmentResource\Pages;
+use Filament\Infolists\Components\Section as sections;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
 
 class DepartmentResource extends Resource
@@ -60,6 +64,21 @@ class DepartmentResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                sections::make('Department Info')
+                    ->schema([
+                        TextEntry::make('name')->label(' Name'),
+                        TextEntry::make('employees_count')->state(function (Model $record): float {
+                            return $record->employees()->count();
+                        })->label(' Employees Count'),
+                    ])->columns(2)
+            ]);
+    }
+
+
     public static function getRelations(): array
     {
         return [
@@ -72,7 +91,7 @@ class DepartmentResource extends Resource
         return [
             'index' => Pages\ListDepartments::route('/'),
             'create' => Pages\CreateDepartment::route('/create'),
-            'view' => Pages\ViewDepartment::route('/{record}'),
+            // 'view' => Pages\ViewDepartment::route('/{record}'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
     }
