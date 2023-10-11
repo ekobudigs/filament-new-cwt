@@ -28,6 +28,7 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable implements HasTenants
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_admin' => 'boolean'
     ];
 
 
@@ -64,5 +66,10 @@ class User extends Authenticatable implements HasTenants
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->teams->contains($tenant);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->email === 'eko@gmail.com';
     }
 }
